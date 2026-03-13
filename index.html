@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro | Terminal de Estudos</title>
+    <link rel="shortcut icon" href="img/" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <header>
+        <h1>Concentração e Foco</h1>
+    </header>
+
+    <div class="dashboard">
+        <div class="timer-section">
+            <div id="timer-label">MODO: FOCO</div>
+
+            <div class="timer-display" id="timer">25:00</div>
+        </div>
+        <div class="timer-section">
+            <div class="controls">
+                <button onclick="startTimer()">INICIAR SEÇÃO</button>
+                <button onclick="resetTimer()">RESETAR</button>
+            </div>
+        </div>
+
+        <div class="xp-container">
+            <div id="level">NÍVEL: 1 (Digital Architect)</div>
+            <div id="barra">
+                <div id="xp-bar"></div>
+            </div>
+        </div>
+    </div>
+    <article>
+        <h2>Oque é a Técnica POMODORO?</h2>
+        <p id="pomo">A Técnica Pomodoro é um método de gestão de tempo que aumenta a produtividade ao dividir o trabalho
+            em blocos focados de 25 minutos (chamados de "pomodoros"), separados por pausas curtas de 5 minutos. Após
+            quatro ciclos, faz-se uma pausa mais longa de 15 a 30 minutos. Ela combate a procrastinação e a fadiga
+            mental.</p>
+    </article>
+    <div id="counter">
+        POMODOROS: 0
+    </div>
+    <div id="message-container">
+        "Prepare-se para o próximo nível."
+    </div>
+    <div class="ambience-control">
+        <button id="bgMusicBtn" onclick="toggleAmbience()">
+            🔊 SOM AMBIENTE: OFF
+        </button>
+
+        <audio id="ambienceAudio" loop>
+            <source src="https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg" type="audio/ogg">
+        </audio>
+
+        <audio id="alarm">
+            <source src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" type="audio/ogg">
+        </audio>
+    </div>
+    <footer>
+        Criado: 2026 | <a href="https://github.com/CarlosdaniDev" target="_blank">CarlosDaniDev</a> - ADS_Dev_Uninter
+    </footer>
+    <script>
+        let timer;
+        let timeLeft = 1 * 2;
+        let isBreak = false;
+        let pomodoroCount = 0;
+        let isAmbiencePlaying = false;
+
+        // Elementos capturados
+        const alarm = document.getElementById('alarm');
+        const bgBtn = document.getElementById('bgMusicBtn');
+        const phrases = {
+            focus: [
+                "O sucesso é o que acontece enquanto seus concorrentes dormem.",
+                "Não anuncie o movimento. Anuncie o resultado.",
+                "Trabalhe até que sua assinatura se torne um autógrafo.",
+                "Vença em silêncio. Deixe o sucesso fazer o barulho.",
+                "Onde a maioria vê um problema, o mestre vê uma oportunidade."
+            ],
+            break: [
+                "Até o motor mais potente precisa de resfriamento.",
+                "Recupere o fôlego. O topo exige resistência.",
+                "Descanso faz parte do treino de quem quer vencer.",
+                "Limpe a mente. O próximo bloco exige clareza total.",
+                "Afie o machado para o próximo corte."
+            ]
+        };
+
+        function toggleAmbience() {
+            const audioAmbiente = document.getElementById('ambienceAudio');
+            const botaoSom = document.getElementById('bgMusicBtn');
+
+            if (!isAmbiencePlaying) {
+                // Forçamos o carregamento antes de dar play
+                audioAmbiente.load();
+                audioAmbiente.play().then(() => {
+                    audioAmbiente.volume = 0.1; // Volume agradável para estudo
+                    botaoSom.innerText = "🔊 SOM AMBIENTE: ON";
+                    isAmbiencePlaying = true;
+                }).catch(error => {
+                    console.error("Erro ao carregar áudio:", error);
+                    alert("Erro ao carregar o som. Tente clicar na tela e ligar novamente.");
+                });
+            } else {
+                audioAmbiente.pause();
+                botaoSom.innerText = "🔇 SOM AMBIENTE: OFF";
+                isAmbiencePlaying = false;
+            }
+        }
+
+        function updatePhrase(type) {
+            const container = document.getElementById('message-container');
+            if (!container) return;
+
+            const list = phrases[type];
+            const randomIndex = Math.floor(Math.random() * list.length);
+
+            container.style.opacity = 0;
+            setTimeout(() => {
+                container.innerText = `"${list[randomIndex]}"`;
+                container.style.opacity = 1;
+                container.style.transition = "opacity 0.5s";
+            }, 500);
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            if (alarm) {
+                alarm.pause();
+                alarm.currentTime = 0;
+            }
+
+            timer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (alarm) alarm.play();
+
+                    if (!isBreak) {
+                        pomodoroCount++;
+                        updateStats();
+                        if (pomodoroCount % 4 === 0) {
+                            alert("Ciclo 4 concluído! Pausa longa.");
+                            setLongBreak();
+                        } else {
+                            alert("Foco encerrado! Iniciar descanso?");
+                            setShortBreak();
+                        }
+                    } else {
+                        alert("Descanso encerrado! Voltar ao trabalho?");
+                        setFocus();
+                    }
+                    return;
+                }
+                timeLeft--;
+                updateDisplay();
+            }, 1000);
+        }
+
+        function setFocus() {
+            updatePhrase('focus');
+            clearInterval(timer);
+            isBreak = false;
+            timeLeft = 25 * 60;
+            const timerEl = document.getElementById('timer');
+            if (timerEl) timerEl.style.color = "#3b82f6";
+            updateDisplay();
+            updateTimerLabel()
+        }
+        function updateTimerLabel() {
+            const label = document.getElementById('timer-label');
+            if (!label) return;
+
+            if (isBreak) {
+                label.innerText = "MODO: DESCANSO";
+                label.style.color = "#10b981"; // Verde para descanso
+            } else {
+                label.innerText = "MODO: FOCO";
+                label.style.color = "#3b82f6"; // Azul para foco
+            }
+        }
+        function setShortBreak() {
+            updatePhrase('break');
+            isBreak = true;
+            timeLeft = 5 * 60;
+            const timerEl = document.getElementById('timer');
+            if (timerEl) timerEl.style.color = "#10b981";
+            updateDisplay();
+            updateTimerLabel()
+        }
+
+        function setLongBreak() {
+            updatePhrase('break');
+            isBreak = true;
+            timeLeft = 20 * 60;
+            const timerEl = document.getElementById('timer');
+            if (timerEl) timerEl.style.color = "#f59e0b";
+            updateDisplay();
+            updateTimerLabel()
+        }
+
+        function updateStats() {
+            const counterEl = document.getElementById('counter');
+            const xpBar = document.getElementById('xp-bar');
+            const levelEl = document.getElementById('level');
+
+            if (counterEl) {
+                counterEl.innerHTML = `SESSÕES CONCLUÍDAS: <strong>#${pomodoroCount}</strong>`;
+            }
+
+            let xpPorcentagem = (pomodoroCount % 10) * 10;
+            let level = Math.floor(pomodoroCount / 10) + 1;
+
+            if (xpBar) xpBar.style.width = xpPorcentagem + "%";
+            if (levelEl) levelEl.innerText = `NÍVEL: ${level}`;
+        }
+
+        function updateDisplay() {
+            const timerDisplay = document.getElementById('timer');
+            if (!timerDisplay) return;
+
+            let min = Math.floor(timeLeft / 60);
+            let sec = timeLeft % 60;
+            timerDisplay.innerText = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            if (alarm) {
+                alarm.pause();
+                alarm.currentTime = 0;
+            }
+            timeLeft = isBreak ? (pomodoroCount % 4 === 0 && pomodoroCount !== 0 ? 20 * 60 : 5 * 60) : 25 * 60;
+            updateDisplay();
+        }
+    </script>
+</body>
+
+</html>
