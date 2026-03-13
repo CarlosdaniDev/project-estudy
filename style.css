@@ -1,178 +1,124 @@
-  :root {
-      --bg: #050505;
-      --accent: #3b82f6;
-      --card: #111;
-      --text: #f0f0f0;
-  }
+:root {
+    --primary: #00d2ff;
+    --secondary: #3a7bd5;
+    --accent: #10b981;
+    --bg-dark: #0f172a;
+    --glass: rgba(30, 41, 59, 0.7);
+}
 
-  *{
+body {
+
+    background: linear-gradient(rgba(15, 23, 42, 0.362), rgba(15, 23, 42, 0.34)),
+        url('https://png.pngtree.com/background/20240824/original/pngtree-luxury-car-parked-in-front-of-a-contemporary-masterpiece-a-stunning-picture-image_10222969.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Mantém o fundo parado ao rolar */
+    margin: 0;
     padding: 0;
-  }
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
 
-  body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      flex-direction: column;
-      align-items: center;
-  }
+header h1 {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin-top: 40px;
+    background: linear-gradient(to right, var(--primary), #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.5));
+    text-align: center;
+}
 
-  .dashboard {
-      width: 100%;
-      max-width: 450px;
-      background: var(--card);
-      border: 1px solid #222;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-  }
+.dashboard {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+}
 
-  .xp-container {
-      margin-top: 20px;
-      border: 1px solid #333;
-      padding: 10px;
-  }
+h2 {
+    color: #fff;
+}
+p{
+    color: #fff;
+}
 
-  #level {
-      font-size: 12px;
-      color: #3b82f6;
-  }
+.timer-display {
+    font-size: 6rem;
+    font-weight: 800;
+    font-family: 'Courier New', monospace;
+    margin: 15px 0;
+    text-shadow: 0 0 20px var(--primary);
+    color: var(--primary);
+}
 
-  #xp-bar {
-      width: 0%;
-      background: #3b82f6;
-      height: 100%;
-      transition: 0.5s;
-  }
+button {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    margin: 5px;
+}
 
-  #message-container {
-      min-height: 40px;
-      margin: 15px 0;
-      font-style: italic;
-      color: #ccc;
-      font-size: 13px;
-      text-align: center;
-      padding: 0 10px;
-  }
+button:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 20px var(--primary);
+    transform: translateY(-2px);
+}
 
-  .header {
-      border-bottom: 1px solid #222;
-      padding-bottom: 15px;
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
+#barra {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-  #timer-label {
-      font-weight: bold;
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: #3b82f6;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
+#xp-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    box-shadow: 0 0 15px var(--primary);
+    transition: width 0.5s ease-in-out;
+}
 
+article {
+    max-width: 600px;
+    padding: 20px;
+    text-align: center;
+    line-height: 1.6;
+    color: #94a3b8;
+}
 
-  .timer-display {
-      font-size: 48px;
-      font-weight: bold;
-      text-align: center;
-      margin: 20px 0;
-      font-family: monospace;
-      color: var(--accent);
-  }
+footer {
+    margin-top: auto;
+    padding: 20px;
+    font-size: 0.8rem;
+    color: #64748b;
+}
 
-  .controls {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 30px;
-  }
-
-  #barra {
-      width: 100%;
-      background: #333;
-      height: 10px;
-      border-radius: 5px;
-      margin-top: 5px;
-      overflow: hidden;
-  }
-
-  h1 {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
-
-  p {
-      font-size: 11px;
-      color: #555;
-      text-align: center;
-  }
-
-  button {
-      flex: 1;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      background: #1a1a1a;
-      color: white;
-      cursor: pointer;
-      transition: 0.2s;
-  }
-
-  button:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-  }
-
-  article {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      flex-direction: column;
-  }
-
-  #pomo {
-      width: 60vw;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      color: rgba(255, 255, 255, 0.644);
-      font-size: medium;
-  }
-
-  #counter {
-      color: #888;
-      font-size: 14px;
-      text-align: center;
-      margin-top: 10px;
-  }
-
-  #timer {
-      transition: color 0.5s ease-in-out;
-  }
-
-  .ambience-control {
-      margin-top: 20px;
-      text-align: center;
-  }
-
-  #bgMusicBtn {
-      font-size: 11px;
-      width: auto;
-      padding: 5px 15px;
-      border-radius: 20px;
-  }
-
-  footer {
-      margin-top: 30px;
-      font-size: 10px;
-      color: #444;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-  }
-
-  a {
-      text-decoration: none;
-  }
+.mode-label {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
