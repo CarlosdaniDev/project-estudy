@@ -123,41 +123,51 @@ footer {
     letter-spacing: 2px;
 }
 
-/* Ajustes para telas pequenas (Celulares) */
-@media (max-width: 700px) {
-    header h1 {
-        font-size: 1.5rem; /* Título menor para não quebrar linha */
-        letter-spacing: 2px;
-        margin-top: 20px;
+/* --- ESTILO PARA CELULARES (Telas até 768px) --- */
+@media screen and (max-width: 700px) {
+    header{
+        width: 90vw;
+    }
+    body {
+        /* Remove o 'fixed' que causa o tremor no mobile */
+        background-attachment: scroll !important; 
+        
+        /* Opcional: Centraliza melhor a imagem no celular */
+        background-position: 40% center; 
     }
 
-    .dashboard {
-        padding: 1.5rem; /* Menos preenchimento interno */
-        width: 60%;
-        margin-top: 10px;
-    }
-
+    /* Ajusta o tamanho do cronômetro para não vazar */
     .timer-display {
-        font-size: 4rem; /* Diminui o relógio para caber na tela */
-        margin: 10px 0;
+        font-size: 4.5rem !important; 
+        letter-spacing: -2px;
+    }
+
+    /* Faz os botões ficarem um embaixo do outro (melhor para o polegar) */
+    .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
     }
 
     button {
-        padding: 10px 16px;
-        font-size: 0.8rem;
-        width: 100%; /* Botões um em cima do outro facilitam o clique com o polegar */
-        margin: 8px 0;
+        width: 100%;
+        max-width: 250px;
+        margin: 0 !important;
     }
 
+    /* Diminui o recuo do painel para ganhar espaço */
+    .dashboard {
+        padding: 1.5rem !important;
+        width: 60% !important;
+    }
+
+    /* Texto explicativo menor */
     article {
         font-size: 0.9rem;
-        padding: 15px;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.3); /* Ajuda na leitura sobre o fundo */
+        border-radius: 10px;
+        width: 80vw;
     }
-
-    #message-container {
-        font-size: 0.9rem;
-        margin: 15px;
-        height: auto;
-    }
-   
 }
