@@ -66,11 +66,14 @@
         Criado: 2026 | <a href="https://github.com/CarlosdaniDev" target="_blank">CarlosDaniDev</a> - ADS_Dev_Uninter
     </footer>
     <script>
+        // Substitua as primeiras linhas por estas:
         let timer;
         let timeLeft = 25 * 60;
         let isBreak = false;
-        let pomodoroCount = 0;
         let isAmbiencePlaying = false;
+
+        // Tenta pegar o valor salvo, se não existir, usa 0
+        let pomodoroCount = parseInt(localStorage.getItem('totalPomodoros')) || 0;
 
         // Elementos capturados
         const alarm = document.getElementById('alarm');
@@ -209,6 +212,10 @@
             const xpBar = document.getElementById('xp-bar');
             const levelEl = document.getElementById('level');
 
+            // --- NOVA LINHA AQUI: Salva o progresso sempre que ele mudar ---
+            localStorage.setItem('totalPomodoros', pomodoroCount);
+            // -----------------------------------------------------------
+
             if (counterEl) {
                 counterEl.innerHTML = `SESSÕES CONCLUÍDAS: <strong>#${pomodoroCount}</strong>`;
             }
@@ -238,6 +245,10 @@
             timeLeft = isBreak ? (pomodoroCount % 4 === 0 && pomodoroCount !== 0 ? 20 * 60 : 5 * 60) : 25 * 60;
             updateDisplay();
         }
+        window.onload = () => {
+            updateStats();
+            updateDisplay();
+        };
     </script>
 </body>
 
