@@ -126,7 +126,10 @@ footer {
 /* --- ESTILO PARA CELULARES (Telas até 768px) --- */
 @media screen and (max-width: 700px) {
     header{
-        width: 90vw;
+        width: 80vw;
+    }
+    header h1{
+        font-size: 8vw;
     }
     body {
         /* Remove o 'fixed' que causa o tremor no mobile */
@@ -160,13 +163,15 @@ footer {
     .dashboard {
         padding: 1.5rem !important;
         width: 60% !important;
+
     }
+   
 
     /* Texto explicativo menor */
     article {
         font-size: 0.9rem;
         padding: 10px;
-        background: rgba(0, 0, 0, 0.3); /* Ajuda na leitura sobre o fundo */
+        background: rgba(0, 0, 0, 0.099); /* Ajuda na leitura sobre o fundo */
         border-radius: 10px;
         width: 80vw;
     }
